@@ -2,18 +2,18 @@ import Config
 
 # Configure your database
 config :pento, Pento.Repo,
-  socket_dir: "/var/run/postgresql",
-  database: "pento_dev",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10,
-  stacktrace: true
-  # username: "postgres",
-  # password: "",
-  # hostname: "localhost",
+  # socket_dir: "/var/run/postgresql",
   # database: "pento_dev",
-  # stacktrace: true,
   # show_sensitive_data_on_connection_error: true,
-  # pool_size: 10
+  # pool_size: 10,
+  # stacktrace: true
+  username: "nikola",
+  password: "",
+  hostname: "localhost",
+  database: "pento_dev",
+  stacktrace: true,
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

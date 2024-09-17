@@ -1,8 +1,13 @@
 defmodule PentoWeb.WrongLive do
   use PentoWeb, :live_view
 
-  def mount(_params, _session, socket) do
-    {:ok, initialize(socket)}
+  on_mount {PentoWeb.UserAuth, :mount_current_user}
+
+  def mount(_params, session, socket) do
+    {:ok,
+      assign(socket, session_id: session["live_socket_id"])
+      |> initial_assigns()
+    }
   end
 
   def render(assigns) do
@@ -19,6 +24,7 @@ defmodule PentoWeb.WrongLive do
         </.link>
       <% end %>
       <%= if @user_won do %>
+        <hr class="my-8">
         <.link class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded m-1"
                patch={~p"/guess"}
         >
@@ -46,10 +52,10 @@ defmodule PentoWeb.WrongLive do
   end
 
   def handle_params(_params, _uri, socket) do
-    {:noreply, initialize(socket)}
+    {:noreply, initial_assigns(socket)}
   end
 
-  defp initialize(socket) do
+  def initial_assigns(socket) do
     assign(
       socket,
       score: 0,
