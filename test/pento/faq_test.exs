@@ -35,7 +35,12 @@ defmodule Pento.FAQTest do
 
     test "update_question/2 with valid data updates the question" do
       question = question_fixture()
-      update_attrs = %{question: "some updated question", answer: "some updated answer", votes: 43}
+
+      update_attrs = %{
+        question: "some updated question",
+        answer: "some updated answer",
+        votes: 43
+      }
 
       assert {:ok, %Question{} = question} = FAQ.update_question(question, update_attrs)
       assert question.question == "some updated question"
