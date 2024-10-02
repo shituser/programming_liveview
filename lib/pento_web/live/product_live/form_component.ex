@@ -47,17 +47,17 @@ defmodule PentoWeb.ProductLive.FormComponent do
   @impl true
   def update(%{product: product} = assigns, socket) do
     {:ok,
-      socket
-      |> assign(assigns)
-      |> allow_upload(:image,
-        accept: ~w(.jpg .jpeg .png),
-        max_entries: 1,
-        max_file_size: 9_000_000,
-        auto_upload: true
-      )
-      |> assign_new(:form, fn ->
-        to_form(Catalog.change_product(product))
-      end)}
+     socket
+     |> assign(assigns)
+     |> allow_upload(:image,
+       accept: ~w(.jpg .jpeg .png),
+       max_entries: 1,
+       max_file_size: 9_000_000,
+       auto_upload: true
+     )
+     |> assign_new(:form, fn ->
+       to_form(Catalog.change_product(product))
+     end)}
   end
 
   @impl true
@@ -104,11 +104,12 @@ defmodule PentoWeb.ProductLive.FormComponent do
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 
   def params_with_image(socket, params) do
-    path = socket
+    path =
+      socket
       |> consume_uploaded_entries(:image, &upload_static_file/2)
       |> List.first()
 
-    Map.put(params,  "image_upload", path)
+    Map.put(params, "image_upload", path)
   end
 
   defp upload_static_file(%{path: path}, _entry) do

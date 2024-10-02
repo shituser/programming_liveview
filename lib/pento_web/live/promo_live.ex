@@ -4,9 +4,10 @@ defmodule PentoWeb.PromoLive do
   alias Pento.Promo.Recipient
 
   def mount(_params, _session, socket) do
-    {:ok, socket
-      |> assign_recipient()
-      |> clear_form()}
+    {:ok,
+     socket
+     |> assign_recipient()
+     |> clear_form()}
   end
 
   def assign_recipient(socket) do
@@ -15,7 +16,8 @@ defmodule PentoWeb.PromoLive do
   end
 
   def clear_form(socket) do
-    form = socket.assigns.recipient
+    form =
+      socket.assigns.recipient
       |> Promo.change_recipient()
       |> to_form()
 
@@ -27,10 +29,12 @@ defmodule PentoWeb.PromoLive do
   end
 
   def handle_event(
-    "validate",
-    %{"recipient" => recipient_params},
-    %{assigns: %{recipient: recipient}} = socket) do
-    changeset = recipient
+        "validate",
+        %{"recipient" => recipient_params},
+        %{assigns: %{recipient: recipient}} = socket
+      ) do
+    changeset =
+      recipient
       |> Promo.change_recipient(recipient_params)
       |> Map.put(:action, :validate)
 
@@ -38,16 +42,17 @@ defmodule PentoWeb.PromoLive do
   end
 
   def handle_event(
-    "save",
-    %{"recipient" => params},
-    %{assigns: %{recipient: recipient}} = socket) do
+        "save",
+        %{"recipient" => params},
+        %{assigns: %{recipient: recipient}} = socket
+      ) do
     case Promo.send_promo(recipient, params) do
       {:ok, _email} ->
         {:noreply,
-          socket
-          |> put_flash(:info, "Email sent successfully")
-          |> push_navigate(to: ~p"/promo")
-        }
+         socket
+         |> put_flash(:info, "Email sent successfully")
+         |> push_navigate(to: ~p"/promo")}
+
       {:error, changeset} ->
         {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
     end

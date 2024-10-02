@@ -9,6 +9,7 @@ defmodule Pento.Promo do
     case change_recipient(recipient, attrs) do
       %Ecto.Changeset{valid?: true} ->
         {:ok, "Sending email..."}
+
       %Ecto.Changeset{} = changeset ->
         {:error, changeset}
     end
